@@ -47,15 +47,9 @@ const countFilterAll = document.getElementById("countFilterAll");
 const countFilterPending = document.getElementById("countFilterPending");
 const countFilterCheckedIn = document.getElementById("countFilterCheckedIn");
 
-// Modals
-const qrModal = document.getElementById("qrModal");
-const btnOpenQrModal = document.getElementById("btnOpenQrModal");
-const btnCloseQrModal = document.getElementById("btnCloseQrModal");
-const btnShowDriveQr = document.getElementById("btnShowDriveQr");
-const btnShowDriveQrFromEmpty = document.getElementById("btnShowDriveQrFromEmpty");
-
 const newGuestModal = document.getElementById("newGuestModal");
 const btnOpenNewGuestModal = document.getElementById("btnOpenNewGuestModal");
+const btnOpenNewGuestFromBanner = document.getElementById("btnOpenNewGuestFromBanner");
 const btnCloseNewGuestModal = document.getElementById("btnCloseNewGuestModal");
 const btnCancelNewGuest = document.getElementById("btnCancelNewGuest");
 const btnQuickAddFromSearch = document.getElementById("btnQuickAddFromSearch");
@@ -368,10 +362,6 @@ function renderGuestList() {
               >
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
               </button>
-
-              <span class="text-[11px] text-slate-500">
-                (Máx: ${totalCompanions})
-              </span>
             </div>
           </div>
 
@@ -632,35 +622,6 @@ function showToast(message, type = "info") {
 /**
  * Generate QR code for Google Form Registration
  */
-function generateDriveQR() {
-  if (state.qrGenerated) return;
-  const qrContainer = document.getElementById("qrcode");
-  qrContainer.innerHTML = "";
-
-  new QRCode(qrContainer, {
-    text: FORM_REGISTRATION_URL,
-    width: 200,
-    height: 200,
-    colorDark: "#0A0C10",
-    colorLight: "#FFFFFF",
-    correctLevel: QRCode.CorrectLevel.H
-  });
-
-  state.qrGenerated = true;
-}
-
-/**
- * Open/Close Modals
- */
-function openQrModal() {
-  generateDriveQR();
-  qrModal.classList.remove("hidden");
-}
-
-function closeQrModal() {
-  qrModal.classList.add("hidden");
-}
-
 function openNewGuestModal(prefillName = "") {
   newGuestModal.classList.remove("hidden");
   if (prefillName) {
@@ -730,21 +691,23 @@ function setupEventListeners() {
   });
 
   // Modals interactions
-  btnOpenQrModal.addEventListener("click", openQrModal);
-  btnCloseQrModal.addEventListener("click", closeQrModal);
-  btnShowDriveQr.addEventListener("click", openQrModal);
-  btnShowDriveQrFromEmpty.addEventListener("click", openQrModal);
-
-  qrModal.addEventListener("click", e => {
-    if (e.target === qrModal) closeQrModal();
-  });
-
-  btnOpenNewGuestModal.addEventListener("click", () => openNewGuestModal());
-  btnCloseNewGuestModal.addEventListener("click", closeNewGuestModal);
-  btnCancelNewGuest.addEventListener("click", closeNewGuestModal);
-  newGuestModal.addEventListener("click", e => {
-    if (e.target === newGuestModal) closeNewGuestModal();
-  });
+  if (btnOpenNewGuestModal) {
+    btnOpenNewGuestModal.addEventListener("click", () => openNewGuestModal());
+  }
+  if (btnOpenNewGuestFromBanner) {
+    btnOpenNewGuestFromBanner.addEventListener("click", () => openNewGuestModal());
+  }
+  if (btnCloseNewGuestModal) {
+    btnCloseNewGuestModal.addEventListener("click", closeNewGuestModal);
+  }
+  if (btnCancelNewGuest) {
+    btnCancelNewGuest.addEventListener("click", closeNewGuestModal);
+  }
+  if (newGuestModal) {
+    newGuestModal.addEventListener("click", e => {
+      if (e.target === newGuestModal) closeNewGuestModal();
+    });
+  }
 
   btnQuickAddFromSearch.addEventListener("click", () => {
     openNewGuestModal(state.searchQuery);

@@ -70,28 +70,15 @@
           <img src="logo.png" alt="MSA Logo" class="h-10 w-auto object-contain">
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <span class="text-[11px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded bg-brand-red text-white shadow-sm">
-              Línea Premium
-            </span>
-            <span id="syncBadge" class="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              En Línea
-            </span>
-          </div>
-          <h1 class="text-base sm:text-lg font-bold font-display tracking-tight text-white leading-tight mt-0.5">
+          <h1 class="text-base sm:text-lg font-bold font-display tracking-tight text-white leading-tight">
             Control de Asistencia
           </h1>
+          <p class="text-xs text-neutral-400 font-medium">Evento MSA</p>
         </div>
       </div>
 
       <!-- Action Buttons in Header -->
       <div class="flex items-center gap-2">
-        <button id="btnOpenQrModal" title="Mostrar QR de Registro" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-white transition active:scale-95">
-          <i data-lucide="qr-code" class="w-4 h-4 text-brand-redLight"></i>
-          <span class="hidden sm:inline">QR Registro</span>
-        </button>
-
         <button id="btnExport" title="Descargar Reporte Excel" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-white transition active:scale-95">
           <i data-lucide="download" class="w-4 h-4 text-neutral-300"></i>
           <span class="hidden sm:inline">Excel</span>
@@ -99,7 +86,7 @@
 
         <button id="btnOpenNewGuestModal" class="flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-lg bg-brand-red hover:bg-brand-redHover text-white shadow-lg shadow-brand-red/30 transition active:scale-95">
           <i data-lucide="user-plus" class="w-4 h-4"></i>
-          <span class="hidden xs:inline">Nuevo</span>
+          <span>+ Nuevo</span>
         </button>
       </div>
     </div>
@@ -183,31 +170,27 @@
       </div>
     </section>
 
-    <!-- Google Form Registration Quick Banner (for unlisted guests) -->
+    <!-- Direct Guest Registration Quick Banner (for unlisted guests) -->
     <section class="bg-white border-2 border-brand-red/30 rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md shadow-red-500/5 relative overflow-hidden">
       <div class="flex items-start sm:items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-red-100 border border-brand-red/30 flex items-center justify-center flex-shrink-0 text-brand-red">
-          <i data-lucide="user-x" class="w-5 h-5"></i>
+          <i data-lucide="user-plus" class="w-5 h-5"></i>
         </div>
         <div>
           <h2 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
             ¿Invitado no aparece en la lista?
           </h2>
           <p class="text-xs text-slate-600">
-            Muestra el código QR o abre el formulario oficial de registro para ingresar.
+            Regístralo directamente aquí para autorizar su ingreso e incluirlo en el reporte oficial de Excel.
           </p>
         </div>
       </div>
 
       <div class="flex items-center gap-2 w-full sm:w-auto">
-        <button id="btnShowDriveQr" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-bold transition active:scale-95">
-          <i data-lucide="qr-code" class="w-4 h-4 text-brand-red"></i>
-          <span>Ver QR</span>
+        <button id="btnOpenNewGuestFromBanner" class="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition active:scale-95 shadow-md shadow-brand-red/20">
+          <i data-lucide="user-plus" class="w-4 h-4"></i>
+          <span>+ Registrar Invitado</span>
         </button>
-        <a href="https://forms.gle/ZMx54sLXi2kvEavt9" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition active:scale-95 shadow-md shadow-brand-red/20">
-          <i data-lucide="external-link" class="w-4 h-4"></i>
-          <span>Abrir Formulario</span>
-        </a>
       </div>
     </section>
 
@@ -270,19 +253,15 @@
         <i data-lucide="search-x" class="w-7 h-7"></i>
       </div>
       <div>
-        <h3 class="text-base sm:text-lg font-bold text-slate-900">No se encontró ningún invitado</h3>
+        <h3 class="text-base sm:text-lg font-bold text-slate-900">No se encontró en la lista</h3>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-md mx-auto">
-          No hay registros que coincidan con "<span id="noResultsQuery" class="text-brand-red font-bold"></span>". Puedes registrar al asistente en el acto.
+          No hay registros con "<span id="noResultsQuery" class="text-brand-red font-bold"></span>". Puedes registrar a esta persona directamente para autorizar su ingreso.
         </p>
       </div>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
-        <button id="btnQuickAddFromSearch" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs sm:text-sm font-bold shadow-md shadow-brand-red/25 transition active:scale-95">
+        <button id="btnQuickAddFromSearch" class="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs sm:text-sm font-bold shadow-md shadow-brand-red/25 transition active:scale-95">
           <i data-lucide="user-plus" class="w-4 h-4"></i>
           <span>Registrar e Ingresar Ahora</span>
-        </button>
-        <button id="btnShowDriveQrFromEmpty" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold transition active:scale-95">
-          <i data-lucide="qr-code" class="w-4 h-4 text-brand-red"></i>
-          <span>Mostrar QR del Formulario</span>
         </button>
       </div>
     </div>
@@ -296,43 +275,6 @@
     </div>
 
   </main>
-
-  <!-- Modal: QR Code for Google Form Link -->
-  <div id="qrModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
-    <div class="bg-white border border-slate-200 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative space-y-4 text-center">
-      
-      <button id="btnCloseQrModal" class="absolute top-4 right-4 p-2 rounded-xl text-slate-500 hover:text-slate-900 bg-slate-100 border border-slate-200 transition">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="space-y-1 pt-2">
-        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-100 border border-brand-red/30 text-brand-red mb-1">
-          <i data-lucide="qr-code" class="w-6 h-6"></i>
-        </div>
-        <h3 class="text-lg font-bold text-slate-900 font-display">Formulario de Registro</h3>
-        <p class="text-xs text-slate-600">
-          Muestra este código para que el asistente lo escanee con la cámara de su celular.
-        </p>
-      </div>
-
-      <!-- QR Container -->
-      <div class="bg-white p-3 rounded-2xl shadow-md inline-block mx-auto border-2 border-slate-200">
-        <div id="qrcode" class="flex justify-center items-center"></div>
-      </div>
-
-      <div class="space-y-2">
-        <p class="text-[11px] text-slate-600 break-all bg-slate-50 p-2.5 rounded-xl border border-slate-200 font-mono">
-          https://forms.gle/ZMx54sLXi2kvEavt9
-        </p>
-        <div class="flex gap-2">
-          <a href="https://forms.gle/ZMx54sLXi2kvEavt9" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition shadow-md shadow-brand-red/20">
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-            <span>Abrir Formulario</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Modal: Manual Quick Add Guest -->
   <div id="newGuestModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">

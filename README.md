@@ -16,19 +16,17 @@ Sistema web optimizado para teléfonos móviles, tablets y computadoras, diseña
    - Búsqueda instantánea por **Nombre Completo**, **Apellidos** o **Número de Teléfono**.
    - Normalización automática de tildes/acentos (ej. "Perez" encuentra "Pérez") y dígitos telefónicos.
 
-3. **Gestión de Invitados no Registrados**:
-   - Botón directo y visualizador de **Código QR** para el formulario oficial de registro:
-     `https://forms.gle/ZMx54sLXi2kvEavt9`
-   - El personal en puerta puede mostrar el código QR en pantalla para que el invitado lo escanee desde la cámara de su celular.
-   - Opción de **Registro Rápido en Puerta** para registrar e ingresar inmediatamente al invitado.
+3. **Registro Directo en Lista y Excel**:
+   - Registro inmediato en puerta para personas no listadas, guardándolas al instante en la base de datos y en el reporte de Excel.
+   - Sin necesidad de formularios externos: todo el flujo de asistencia y registro se gestiona en la misma pantalla.
 
 4. **Control de Acompañantes y Marcación de Ingreso**:
-   - Contador dinámico de acompañantes `[-] / [+]` con límite establecido en la lista oficial.
+   - Selector dinámico de acompañantes `[-] / [+]`.
    - Botón de **"Permitir Ingreso"** con hora exacta de entrada registrada y opción para deshacer.
    - Métricas en tiempo real: Total Invitados, Ingresados, Pendientes, Total personas en sala y porcentaje de asistencia.
 
-5. **Exportación de Reportes**:
-   - Botón para descargar el reporte actualizado en formato **Excel (.xlsx)** con los estados de asistencia y marcas de tiempo.
+5. **Exportación de Reportes Excel**:
+   - Botón para descargar el reporte actualizado en formato **Excel (.xlsx)** con todos los invitados originales y los nuevos registrados en puerta, marcas de tiempo y acompañantes.
 
 6. **100% Adaptable para Móviles (Responsive)**:
    - Diseñado pensando en el personal que opera desde teléfonos celulares en la entrada del evento.
