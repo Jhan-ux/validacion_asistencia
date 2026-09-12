@@ -3,7 +3,7 @@
  * Frontend Logic & State Management
  */
 
-const DRIVE_REGISTRATION_URL = "https://drive.google.com/drive/folders/1oQ6uaCIXctGtG35SUzE5BjOMRaOvrU0W?usp=drive_link";
+const FORM_REGISTRATION_URL = "https://forms.gle/ZMx54sLXi2kvEavt9";
 const LOCAL_STORAGE_KEY = "msa_guests_attendance_data";
 
 // Application State
@@ -630,7 +630,7 @@ function showToast(message, type = "info") {
 }
 
 /**
- * Generate QR code for Google Drive
+ * Generate QR code for Google Form Registration
  */
 function generateDriveQR() {
   if (state.qrGenerated) return;
@@ -638,7 +638,7 @@ function generateDriveQR() {
   qrContainer.innerHTML = "";
 
   new QRCode(qrContainer, {
-    text: DRIVE_REGISTRATION_URL,
+    text: FORM_REGISTRATION_URL,
     width: 200,
     height: 200,
     colorDark: "#0A0C10",

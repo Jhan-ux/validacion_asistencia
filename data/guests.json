@@ -1242,7 +1242,7 @@
     "companions": 5,
     "checkedIn": false,
     "checkInTime": null,
-    "companionsEntered": 0,
+    "companionsEntered": 5,
     "notes": ""
   }
 ]

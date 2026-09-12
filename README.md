@@ -17,8 +17,8 @@ Sistema web optimizado para teléfonos móviles, tablets y computadoras, diseña
    - Normalización automática de tildes/acentos (ej. "Perez" encuentra "Pérez") y dígitos telefónicos.
 
 3. **Gestión de Invitados no Registrados**:
-   - Botón directo y visualizador de **Código QR** para el enlace oficial de registro en Google Drive:
-     `https://drive.google.com/drive/folders/1oQ6uaCIXctGtG35SUzE5BjOMRaOvrU0W?usp=drive_link`
+   - Botón directo y visualizador de **Código QR** para el formulario oficial de registro:
+     `https://forms.gle/ZMx54sLXi2kvEavt9`
    - El personal en puerta puede mostrar el código QR en pantalla para que el invitado lo escanee desde la cámara de su celular.
    - Opción de **Registro Rápido en Puerta** para registrar e ingresar inmediatamente al invitado.
 
