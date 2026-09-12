@@ -10,7 +10,7 @@
     "companions": 1,
     "checkedIn": false,
     "checkInTime": null,
-    "companionsEntered": 0,
+    "companionsEntered": 1,
     "notes": ""
   },
   {
@@ -24,7 +24,7 @@
     "companions": 2,
     "checkedIn": false,
     "checkInTime": null,
-    "companionsEntered": 0,
+    "companionsEntered": 2,
     "notes": ""
   },
   {
@@ -38,7 +38,7 @@
     "companions": 2,
     "checkedIn": false,
     "checkInTime": null,
-    "companionsEntered": 0,
+    "companionsEntered": 2,
     "notes": ""
   },
   {

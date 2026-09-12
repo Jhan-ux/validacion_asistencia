@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,21 +17,24 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             brand: {
               black: '#0A0C10',
-              card: '#12161F',
-              cardHover: '#181E2A',
-              border: '#262D3D',
+              header: '#11151F',
+              headerBorder: '#232938',
               red: '#E50914',
-              redHover: '#B80710',
+              redHover: '#C80812',
               redLight: '#FF3344',
+              redSoft: '#FEF2F2',
+              redBorder: '#FCA5A5',
               white: '#FFFFFF',
-              gray: '#8F9CAE',
-              grayLight: '#D1D7E0'
+              bg: '#F8FAFC',
+              card: '#FFFFFF',
+              textDark: '#0F172A',
+              textMuted: '#64748B',
+              border: '#E2E8F0'
             }
           },
           fontFamily: {
@@ -55,20 +58,20 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-brand-black text-brand-white min-h-screen flex flex-col font-sans selection:bg-brand-red selection:text-white pb-24 md:pb-12">
+<body class="bg-brand-bg text-brand-textDark min-h-screen flex flex-col font-sans selection:bg-brand-red selection:text-white pb-24 md:pb-12">
 
-  <!-- Header sticky -->
-  <header class="sticky top-0 z-40 bg-brand-black/95 backdrop-blur-md border-b border-brand-border/60 shadow-xl transition-all">
+  <!-- Header: NEGRO ELEGANTE CON DETALLES ROJOS Y BLANCOS -->
+  <header class="sticky top-0 z-40 bg-brand-black text-white border-b-2 border-brand-red shadow-xl transition-all">
     <div class="max-w-4xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between gap-3">
       
       <!-- Brand Logo & Titles -->
       <div class="flex items-center gap-3">
-        <div class="relative flex-shrink-0 bg-brand-card p-1.5 rounded-xl border border-brand-border/80 shadow-md">
+        <div class="relative flex-shrink-0 bg-neutral-900 p-1.5 rounded-xl border border-neutral-700 shadow-md">
           <img src="logo.png" alt="MSA Logo" class="h-10 w-auto object-contain">
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-brand-red/20 text-brand-redLight border border-brand-red/30">
+            <span class="text-[11px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded bg-brand-red text-white shadow-sm">
               Línea Premium
             </span>
             <span id="syncBadge" class="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium">
@@ -76,7 +79,7 @@
               En Línea
             </span>
           </div>
-          <h1 class="text-base sm:text-lg font-bold font-display tracking-tight text-white leading-tight">
+          <h1 class="text-base sm:text-lg font-bold font-display tracking-tight text-white leading-tight mt-0.5">
             Control de Asistencia
           </h1>
         </div>
@@ -84,17 +87,17 @@
 
       <!-- Action Buttons in Header -->
       <div class="flex items-center gap-2">
-        <button id="btnOpenQrModal" title="Mostrar QR de Registro" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-brand-card hover:bg-brand-cardHover border border-brand-border text-white transition active:scale-95">
+        <button id="btnOpenQrModal" title="Mostrar QR de Registro" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-white transition active:scale-95">
           <i data-lucide="qr-code" class="w-4 h-4 text-brand-redLight"></i>
           <span class="hidden sm:inline">QR Registro</span>
         </button>
 
-        <button id="btnExport" title="Descargar Reporte Excel" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-brand-card hover:bg-brand-cardHover border border-brand-border text-white transition active:scale-95">
-          <i data-lucide="download" class="w-4 h-4 text-brand-grayLight"></i>
+        <button id="btnExport" title="Descargar Reporte Excel" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-white transition active:scale-95">
+          <i data-lucide="download" class="w-4 h-4 text-neutral-300"></i>
           <span class="hidden sm:inline">Excel</span>
         </button>
 
-        <button id="btnOpenNewGuestModal" class="flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-lg bg-brand-red hover:bg-brand-redHover text-white shadow-lg shadow-brand-red/25 transition active:scale-95">
+        <button id="btnOpenNewGuestModal" class="flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-lg bg-brand-red hover:bg-brand-redHover text-white shadow-lg shadow-brand-red/30 transition active:scale-95">
           <i data-lucide="user-plus" class="w-4 h-4"></i>
           <span class="hidden xs:inline">Nuevo</span>
         </button>
@@ -102,101 +105,106 @@
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Main Container: BODY BLANCO CON DETALLES ROJOS Y NEGROS -->
   <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-4 space-y-4">
 
     <!-- KPI / Metrics Grid -->
     <section class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
       
       <!-- Total Invitados -->
-      <div class="bg-brand-card border border-brand-border/70 rounded-2xl p-3 sm:p-4 relative overflow-hidden shadow-lg">
-        <div class="flex items-center justify-between text-brand-gray mb-1">
-          <span class="text-xs font-medium uppercase tracking-wider">Invitados</span>
-          <i data-lucide="users" class="w-4 h-4 text-brand-gray"></i>
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 relative overflow-hidden shadow-sm hover:shadow transition">
+        <div class="flex items-center justify-between text-slate-500 mb-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Invitados</span>
+          <div class="p-1 rounded-lg bg-slate-100 text-slate-700">
+            <i data-lucide="users" class="w-3.5 h-3.5"></i>
+          </div>
         </div>
         <div class="flex items-baseline gap-1">
-          <span id="kpiTotalGuests" class="text-2xl sm:text-3xl font-extrabold font-display text-white">0</span>
-          <span class="text-xs text-brand-gray">titulares</span>
+          <span id="kpiTotalGuests" class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900">0</span>
+          <span class="text-xs text-slate-500">titulares</span>
         </div>
-        <div class="text-[11px] text-brand-gray/80 mt-0.5">
-          + <span id="kpiTotalCompanionsExpected">0</span> acompañantes
+        <div class="text-[11px] text-slate-500 mt-0.5">
+          + <span id="kpiTotalCompanionsExpected" class="font-semibold text-slate-700">0</span> acompañantes
         </div>
-        <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-brand-border/20 rounded-full blur-xl pointer-events-none"></div>
       </div>
 
       <!-- Ingresados -->
-      <div class="bg-brand-card border border-emerald-500/30 rounded-2xl p-3 sm:p-4 relative overflow-hidden shadow-lg shadow-emerald-950/20">
-        <div class="flex items-center justify-between text-emerald-400 mb-1">
-          <span class="text-xs font-medium uppercase tracking-wider">Ingresaron</span>
-          <i data-lucide="user-check" class="w-4 h-4 text-emerald-400"></i>
+      <div class="bg-white border border-emerald-200 rounded-2xl p-3.5 sm:p-4 relative overflow-hidden shadow-sm hover:shadow transition">
+        <div class="flex items-center justify-between text-emerald-700 mb-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Ingresaron</span>
+          <div class="p-1 rounded-lg bg-emerald-100 text-emerald-700">
+            <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+          </div>
         </div>
         <div class="flex items-baseline gap-1">
-          <span id="kpiCheckedIn" class="text-2xl sm:text-3xl font-extrabold font-display text-emerald-400">0</span>
-          <span class="text-xs text-emerald-500/80">titulares</span>
+          <span id="kpiCheckedIn" class="text-2xl sm:text-3xl font-extrabold font-display text-emerald-600">0</span>
+          <span class="text-xs text-emerald-700">titulares</span>
         </div>
-        <div class="text-[11px] text-emerald-400/80 mt-0.5">
-          + <span id="kpiCompanionsEntered">0</span> acompañantes
+        <div class="text-[11px] text-emerald-700 mt-0.5">
+          + <span id="kpiCompanionsEntered" class="font-semibold text-emerald-800">0</span> acompañantes
         </div>
-        <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
       </div>
 
       <!-- Pendientes -->
-      <div class="bg-brand-card border border-brand-border/70 rounded-2xl p-3 sm:p-4 relative overflow-hidden shadow-lg">
-        <div class="flex items-center justify-between text-brand-redLight mb-1">
-          <span class="text-xs font-medium uppercase tracking-wider">Pendientes</span>
-          <i data-lucide="clock" class="w-4 h-4 text-brand-redLight"></i>
+      <div class="bg-white border border-rose-200 rounded-2xl p-3.5 sm:p-4 relative overflow-hidden shadow-sm hover:shadow transition">
+        <div class="flex items-center justify-between text-brand-red mb-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-red">Pendientes</span>
+          <div class="p-1 rounded-lg bg-red-100 text-brand-red">
+            <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+          </div>
         </div>
         <div class="flex items-baseline gap-1">
-          <span id="kpiPending" class="text-2xl sm:text-3xl font-extrabold font-display text-white">0</span>
-          <span class="text-xs text-brand-gray">por llegar</span>
+          <span id="kpiPending" class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900">0</span>
+          <span class="text-xs text-slate-500">por llegar</span>
         </div>
-        <div class="text-[11px] text-brand-gray/80 mt-0.5">
+        <div class="text-[11px] text-slate-500 mt-0.5">
           Lista oficial
         </div>
-        <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-brand-red/10 rounded-full blur-xl pointer-events-none"></div>
       </div>
 
-      <!-- Total Personas en Evento -->
-      <div class="bg-gradient-to-br from-brand-card to-brand-cardHover border border-brand-red/40 rounded-2xl p-3 sm:p-4 relative overflow-hidden shadow-lg">
-        <div class="flex items-center justify-between text-brand-white mb-1">
-          <span class="text-xs font-semibold uppercase tracking-wider text-brand-redLight">En Sala</span>
-          <i data-lucide="sparkles" class="w-4 h-4 text-brand-redLight"></i>
+      <!-- Total Personas en Evento (Destacado Rojo y Negro) -->
+      <div class="bg-gradient-to-br from-red-600 to-brand-red text-white rounded-2xl p-3.5 sm:p-4 relative overflow-hidden shadow-md shadow-red-500/20">
+        <div class="flex items-center justify-between text-white mb-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-red-100">En Sala</span>
+          <div class="p-1 rounded-lg bg-white/20 text-white">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          </div>
         </div>
         <div class="flex items-baseline gap-1">
           <span id="kpiTotalPeopleEntered" class="text-2xl sm:text-3xl font-extrabold font-display text-white">0</span>
-          <span class="text-xs text-brand-gray">personas</span>
+          <span class="text-xs text-red-100">personas</span>
         </div>
         <div class="flex items-center gap-1.5 mt-1">
-          <div class="flex-1 bg-brand-border/80 rounded-full h-1.5 overflow-hidden">
-            <div id="kpiProgressBar" class="bg-brand-red h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="flex-1 bg-black/25 rounded-full h-1.5 overflow-hidden">
+            <div id="kpiProgressBar" class="bg-white h-full rounded-full transition-all duration-500" style="width: 0%"></div>
           </div>
-          <span id="kpiRate" class="text-[10px] font-bold text-brand-white">0%</span>
+          <span id="kpiRate" class="text-[10px] font-bold text-white">0%</span>
         </div>
       </div>
     </section>
 
-    <!-- Registration Form Quick Banner (for unlisted guests) -->
-    <section class="bg-gradient-to-r from-neutral-900 via-brand-card to-neutral-900 border border-brand-red/30 rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xl relative overflow-hidden">
+    <!-- Google Form Registration Quick Banner (for unlisted guests) -->
+    <section class="bg-white border-2 border-brand-red/30 rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md shadow-red-500/5 relative overflow-hidden">
       <div class="flex items-start sm:items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-brand-red/20 border border-brand-red/40 flex items-center justify-center flex-shrink-0 text-brand-redLight">
+        <div class="w-10 h-10 rounded-xl bg-red-100 border border-brand-red/30 flex items-center justify-center flex-shrink-0 text-brand-red">
           <i data-lucide="user-x" class="w-5 h-5"></i>
         </div>
         <div>
-          <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
+          <h2 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
             ¿Invitado no aparece en la lista?
           </h2>
-          <p class="text-xs text-brand-gray">
-            Escanea el código QR o abre el formulario oficial de registro de invitados.
+          <p class="text-xs text-slate-600">
+            Muestra el código QR o abre el formulario oficial de registro para ingresar.
           </p>
         </div>
       </div>
 
       <div class="flex items-center gap-2 w-full sm:w-auto">
-        <button id="btnShowDriveQr" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-white text-xs font-semibold transition active:scale-95 shadow-md">
-          <i data-lucide="qr-code" class="w-4 h-4 text-brand-redLight"></i>
+        <button id="btnShowDriveQr" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-bold transition active:scale-95">
+          <i data-lucide="qr-code" class="w-4 h-4 text-brand-red"></i>
           <span>Ver QR</span>
         </button>
-        <a href="https://forms.gle/ZMx54sLXi2kvEavt9" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition active:scale-95 shadow-md shadow-brand-red/20">
+        <a href="https://forms.gle/ZMx54sLXi2kvEavt9" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition active:scale-95 shadow-md shadow-brand-red/20">
           <i data-lucide="external-link" class="w-4 h-4"></i>
           <span>Abrir Formulario</span>
         </a>
@@ -208,21 +216,21 @@
       
       <!-- Search Input Container -->
       <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-brand-gray">
-          <i data-lucide="search" class="w-5 h-5"></i>
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <i data-lucide="search" class="w-5 h-5 text-brand-red"></i>
         </div>
         <input
           type="text"
           id="searchInput"
           autocomplete="off"
           placeholder="Buscar por Nombre o Número de Teléfono..."
-          class="w-full pl-11 pr-24 py-3.5 rounded-2xl bg-brand-card border border-brand-border text-white placeholder-brand-gray text-sm sm:text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition shadow-inner"
+          class="w-full pl-11 pr-24 py-3.5 rounded-2xl bg-white border-2 border-slate-200 text-slate-900 placeholder-slate-400 text-sm sm:text-base font-medium focus:outline-none focus:border-brand-red focus:ring-4 focus:ring-brand-red/10 transition shadow-sm"
         >
         <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center gap-1">
-          <button id="btnClearSearch" class="hidden p-1.5 text-brand-gray hover:text-white rounded-lg transition" title="Limpiar búsqueda">
+          <button id="btnClearSearch" class="hidden p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition" title="Limpiar búsqueda">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
-          <span id="searchResultCount" class="text-xs font-semibold px-2 py-1 rounded-md bg-brand-border/60 text-brand-grayLight">
+          <span id="searchResultCount" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
             0
           </span>
         </div>
@@ -232,20 +240,20 @@
       <div class="flex items-center justify-between gap-2 overflow-x-auto pb-1 no-scrollbar">
         
         <!-- Filter Tabs -->
-        <div class="flex items-center gap-1.5 bg-brand-card p-1 rounded-xl border border-brand-border/70 flex-shrink-0">
-          <button data-filter="all" class="filter-tab active-filter px-3 py-1.5 rounded-lg text-xs font-bold transition">
+        <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-200 shadow-sm flex-shrink-0">
+          <button data-filter="all" class="filter-tab active-filter px-3.5 py-1.5 rounded-lg text-xs font-bold transition">
             Todos (<span id="countFilterAll">0</span>)
           </button>
-          <button data-filter="pending" class="filter-tab px-3 py-1.5 rounded-lg text-xs font-medium text-brand-gray hover:text-white transition">
+          <button data-filter="pending" class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
             Pendientes (<span id="countFilterPending">0</span>)
           </button>
-          <button data-filter="checkedIn" class="filter-tab px-3 py-1.5 rounded-lg text-xs font-medium text-brand-gray hover:text-white transition">
+          <button data-filter="checkedIn" class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
             Ingresados (<span id="countFilterCheckedIn">0</span>)
           </button>
         </div>
 
         <!-- Refresh / Sync button -->
-        <button id="btnReload" title="Actualizar Datos" class="p-2 rounded-xl bg-brand-card border border-brand-border/70 text-brand-gray hover:text-white transition active:scale-95 flex-shrink-0">
+        <button id="btnReload" title="Actualizar Datos" class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-brand-red hover:border-brand-red/40 transition active:scale-95 shadow-sm flex-shrink-0">
           <i data-lucide="refresh-cw" class="w-4 h-4"></i>
         </button>
       </div>
@@ -253,28 +261,28 @@
 
     <!-- Guests List Section -->
     <section id="guestListContainer" class="space-y-2.5">
-      <!-- Guest cards will be dynamically rendered here -->
+      <!-- Guest cards will be dynamically rendered here in white with red accents -->
     </section>
 
     <!-- Empty State: No results found -->
-    <div id="noResultsState" class="hidden bg-brand-card border border-brand-border/80 rounded-2xl p-6 sm:p-8 text-center space-y-4 shadow-xl">
-      <div class="w-14 h-14 mx-auto rounded-2xl bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-redLight">
+    <div id="noResultsState" class="hidden bg-white border-2 border-slate-200 rounded-2xl p-6 sm:p-8 text-center space-y-4 shadow-sm">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-red-100 border border-brand-red/30 flex items-center justify-center text-brand-red">
         <i data-lucide="search-x" class="w-7 h-7"></i>
       </div>
       <div>
-        <h3 class="text-base sm:text-lg font-bold text-white">No se encontró ningún invitado</h3>
-        <p class="text-xs sm:text-sm text-brand-gray mt-1 max-w-md mx-auto">
-          No hay registros que coincidan con "<span id="noResultsQuery" class="text-white font-semibold"></span>". El invitado puede no estar registrado en la lista previa.
+        <h3 class="text-base sm:text-lg font-bold text-slate-900">No se encontró ningún invitado</h3>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-md mx-auto">
+          No hay registros que coincidan con "<span id="noResultsQuery" class="text-brand-red font-bold"></span>". Puedes registrar al asistente en el acto.
         </p>
       </div>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
-        <button id="btnQuickAddFromSearch" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs sm:text-sm font-bold shadow-lg shadow-brand-red/20 transition active:scale-95">
+        <button id="btnQuickAddFromSearch" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs sm:text-sm font-bold shadow-md shadow-brand-red/25 transition active:scale-95">
           <i data-lucide="user-plus" class="w-4 h-4"></i>
           <span>Registrar e Ingresar Ahora</span>
         </button>
-        <button id="btnShowDriveQrFromEmpty" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-white text-xs sm:text-sm font-semibold transition active:scale-95">
-          <i data-lucide="qr-code" class="w-4 h-4 text-brand-redLight"></i>
-          <span>Mostrar QR de Registro</span>
+        <button id="btnShowDriveQrFromEmpty" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold transition active:scale-95">
+          <i data-lucide="qr-code" class="w-4 h-4 text-brand-red"></i>
+          <span>Mostrar QR del Formulario</span>
         </button>
       </div>
     </div>
@@ -284,40 +292,40 @@
       <div class="inline-block animate-spin text-brand-red">
         <i data-lucide="loader-2" class="w-8 h-8"></i>
       </div>
-      <p class="text-sm font-medium text-brand-gray">Cargando lista de invitados...</p>
+      <p class="text-sm font-semibold text-slate-600">Cargando lista de invitados...</p>
     </div>
 
   </main>
 
-  <!-- Modal: QR Code for Google Drive Link -->
-  <div id="qrModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fadeIn">
-    <div class="bg-brand-card border border-brand-border rounded-3xl p-6 max-w-sm w-full shadow-2xl relative space-y-4 text-center">
+  <!-- Modal: QR Code for Google Form Link -->
+  <div id="qrModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div class="bg-white border border-slate-200 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative space-y-4 text-center">
       
-      <button id="btnCloseQrModal" class="absolute top-4 right-4 p-2 rounded-xl text-brand-gray hover:text-white bg-brand-black/50 border border-brand-border transition">
+      <button id="btnCloseQrModal" class="absolute top-4 right-4 p-2 rounded-xl text-slate-500 hover:text-slate-900 bg-slate-100 border border-slate-200 transition">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <div class="space-y-1 pt-2">
-        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-brand-red/20 border border-brand-red/40 text-brand-redLight mb-1">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-red-100 border border-brand-red/30 text-brand-red mb-1">
           <i data-lucide="qr-code" class="w-6 h-6"></i>
         </div>
-        <h3 class="text-lg font-bold text-white font-display">Registro de Invitados</h3>
-        <p class="text-xs text-brand-gray">
-          Muestra este código para que el asistente lo escanee con la cámara de su teléfono.
+        <h3 class="text-lg font-bold text-slate-900 font-display">Formulario de Registro</h3>
+        <p class="text-xs text-slate-600">
+          Muestra este código para que el asistente lo escanee con la cámara de su celular.
         </p>
       </div>
 
       <!-- QR Container -->
-      <div class="bg-white p-4 rounded-2xl shadow-inner inline-block mx-auto border-4 border-white">
+      <div class="bg-white p-3 rounded-2xl shadow-md inline-block mx-auto border-2 border-slate-200">
         <div id="qrcode" class="flex justify-center items-center"></div>
       </div>
 
       <div class="space-y-2">
-        <p class="text-[11px] text-brand-gray break-all bg-brand-black/60 p-2.5 rounded-xl border border-brand-border">
+        <p class="text-[11px] text-slate-600 break-all bg-slate-50 p-2.5 rounded-xl border border-slate-200 font-mono">
           https://forms.gle/ZMx54sLXi2kvEavt9
         </p>
         <div class="flex gap-2">
-          <a href="https://forms.gle/ZMx54sLXi2kvEavt9" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition">
+          <a href="https://forms.gle/ZMx54sLXi2kvEavt9" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition shadow-md shadow-brand-red/20">
             <i data-lucide="external-link" class="w-4 h-4"></i>
             <span>Abrir Formulario</span>
           </a>
@@ -327,68 +335,68 @@
   </div>
 
   <!-- Modal: Manual Quick Add Guest -->
-  <div id="newGuestModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fadeIn">
-    <div class="bg-brand-card border border-brand-border rounded-3xl p-5 sm:p-6 max-w-md w-full shadow-2xl relative space-y-4">
+  <div id="newGuestModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 max-w-md w-full shadow-2xl relative space-y-4">
       
-      <button id="btnCloseNewGuestModal" class="absolute top-4 right-4 p-2 rounded-xl text-brand-gray hover:text-white bg-brand-black/50 border border-brand-border transition">
+      <button id="btnCloseNewGuestModal" class="absolute top-4 right-4 p-2 rounded-xl text-slate-500 hover:text-slate-900 bg-slate-100 border border-slate-200 transition">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <div class="space-y-1">
-        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-red/20 text-brand-redLight text-xs font-bold border border-brand-red/30">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-100 text-brand-red text-xs font-bold border border-brand-red/30">
           <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
           Registro en Puerta
         </div>
-        <h3 class="text-lg font-bold text-white font-display">Registrar Nuevo Invitado</h3>
-        <p class="text-xs text-brand-gray">
+        <h3 class="text-lg font-bold text-slate-900 font-display">Registrar Nuevo Invitado</h3>
+        <p class="text-xs text-slate-600">
           Ingresa los datos del invitado para autorizar su ingreso inmediato al evento.
         </p>
       </div>
 
       <form id="newGuestForm" class="space-y-3.5">
         <div>
-          <label class="block text-xs font-semibold text-brand-grayLight uppercase tracking-wider mb-1">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
             Nombre Completo *
           </label>
           <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-brand-gray">
-              <i data-lucide="user" class="w-4 h-4"></i>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="user" class="w-4 h-4 text-brand-red"></i>
             </div>
             <input
               type="text"
               id="formGuestName"
               required
               placeholder="Ej: Ing. Carlos Morales Vega"
-              class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-brand-black border border-brand-border text-white text-sm focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red"
+              class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-brand-red focus:bg-white focus:ring-2 focus:ring-brand-red/20"
             >
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-brand-grayLight uppercase tracking-wider mb-1">
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
               Teléfono / Celular
             </label>
             <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-brand-gray">
-                <i data-lucide="phone" class="w-4 h-4"></i>
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="phone" class="w-4 h-4 text-brand-red"></i>
               </div>
               <input
                 type="tel"
                 id="formGuestPhone"
                 placeholder="Ej: 976 123 456"
-                class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-brand-black border border-brand-border text-white text-sm focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red"
+                class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-brand-red focus:bg-white focus:ring-2 focus:ring-brand-red/20"
               >
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-brand-grayLight uppercase tracking-wider mb-1">
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
               Acompañantes
             </label>
             <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-brand-gray">
-                <i data-lucide="users" class="w-4 h-4"></i>
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="users" class="w-4 h-4 text-brand-red"></i>
               </div>
               <input
                 type="number"
@@ -396,41 +404,41 @@
                 min="0"
                 max="20"
                 value="0"
-                class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-brand-black border border-brand-border text-white text-sm focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red"
+                class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-brand-red focus:bg-white focus:ring-2 focus:ring-brand-red/20"
               >
             </div>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-brand-grayLight uppercase tracking-wider mb-1">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
             Empresa / Observaciones
           </label>
           <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-brand-gray">
-              <i data-lucide="building" class="w-4 h-4"></i>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="building" class="w-4 h-4 text-brand-red"></i>
             </div>
             <input
               type="text"
               id="formGuestResponsible"
               placeholder="Ej: Cliente VIP / Invitación Directa"
-              class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-brand-black border border-brand-border text-white text-sm focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red"
+              class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-brand-red focus:bg-white focus:ring-2 focus:ring-brand-red/20"
             >
           </div>
         </div>
 
         <div class="pt-1 flex items-center gap-2">
-          <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-white">
-            <input type="checkbox" id="formCheckInNow" checked class="w-4 h-4 rounded text-brand-red focus:ring-brand-red bg-brand-black border-brand-border">
+          <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-800 font-medium">
+            <input type="checkbox" id="formCheckInNow" checked class="w-4 h-4 rounded text-brand-red focus:ring-brand-red border-slate-300">
             <span>Marcar ingreso inmediatamente al guardar</span>
           </label>
         </div>
 
         <div class="pt-3 flex items-center gap-2">
-          <button type="button" id="btnCancelNewGuest" class="flex-1 py-2.5 rounded-xl bg-brand-cardHover border border-brand-border text-white text-xs font-semibold transition hover:bg-brand-border">
+          <button type="button" id="btnCancelNewGuest" class="flex-1 py-2.5 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold transition hover:bg-slate-200">
             Cancelar
           </button>
-          <button type="submit" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition shadow-lg shadow-brand-red/20">
+          <button type="submit" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition shadow-md shadow-brand-red/25">
             <i data-lucide="check" class="w-4 h-4"></i>
             <span>Guardar e Ingresar</span>
           </button>

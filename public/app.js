@@ -271,17 +271,17 @@ function renderGuestList() {
     const compsEntered = guest.companionsEntered !== undefined ? parseInt(guest.companionsEntered, 10) : totalCompanions;
 
     return `
-      <div class="guest-card bg-brand-card border ${isCheckedIn ? 'border-emerald-500/50 bg-brand-card/90' : 'border-brand-border'} rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden" data-id="${guest.id}">
+      <div class="guest-card bg-white border-2 ${isCheckedIn ? 'border-emerald-300 bg-emerald-50/40' : 'border-slate-200/90'} rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden" data-id="${guest.id}">
         
         <!-- Top row: ID, Status Badge & Responsible -->
         <div class="flex items-center justify-between gap-2 mb-2.5">
           <div class="flex items-center gap-2">
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${guest.isWalkIn ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-brand-border/60 text-brand-grayLight'} font-mono">
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${guest.isWalkIn ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-slate-100 text-slate-700 border border-slate-200'} font-mono">
               ${guest.id}
             </span>
             ${guest.responsible ? `
-              <span class="text-[11px] text-brand-gray truncate max-w-[140px] sm:max-w-xs flex items-center gap-1">
-                <i data-lucide="tag" class="w-3 h-3 text-brand-redLight flex-shrink-0"></i>
+              <span class="text-[11px] font-semibold text-slate-500 truncate max-w-[140px] sm:max-w-xs flex items-center gap-1">
+                <i data-lucide="tag" class="w-3 h-3 text-brand-red flex-shrink-0"></i>
                 ${escapeHtml(guest.responsible)}
               </span>
             ` : ''}
@@ -290,12 +290,12 @@ function renderGuestList() {
           <!-- Status indicator badge -->
           <div>
             ${isCheckedIn ? `
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
                 Ingresó ${timeFormatted ? `· ${timeFormatted}` : ''}
               </span>
             ` : `
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-brand-border/40 text-brand-gray border border-brand-border/60">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-brand-red border border-rose-200">
                 <i data-lucide="clock" class="w-3.5 h-3.5"></i>
                 Pendiente
               </span>
@@ -305,33 +305,33 @@ function renderGuestList() {
 
         <!-- Middle row: Guest Name & Contact Info -->
         <div class="space-y-1.5 mb-3.5">
-          <h3 class="text-base sm:text-lg font-bold text-white tracking-tight leading-snug">
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-snug">
             ${escapeHtml(guest.name)}
           </h3>
 
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-brand-gray">
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
             ${guest.phone ? `
-              <a href="tel:${guest.phone}" class="inline-flex items-center gap-1.5 text-brand-grayLight hover:text-brand-redLight transition">
-                <i data-lucide="phone" class="w-3.5 h-3.5 text-brand-redLight"></i>
+              <a href="tel:${guest.phone}" class="inline-flex items-center gap-1.5 font-semibold text-slate-700 hover:text-brand-red transition">
+                <i data-lucide="phone" class="w-3.5 h-3.5 text-brand-red"></i>
                 <span>${escapeHtml(guest.phone)}</span>
               </a>
             ` : `
-              <span class="inline-flex items-center gap-1.5 text-brand-gray/60 italic">
+              <span class="inline-flex items-center gap-1.5 text-slate-400 italic">
                 <i data-lucide="phone-off" class="w-3.5 h-3.5"></i>
                 Sin teléfono
               </span>
             `}
 
             ${guest.email ? `
-              <span class="inline-flex items-center gap-1.5 text-brand-gray truncate max-w-[200px]">
-                <i data-lucide="mail" class="w-3.5 h-3.5 text-brand-gray"></i>
+              <span class="inline-flex items-center gap-1.5 text-slate-500 truncate max-w-[200px]">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
                 ${escapeHtml(guest.email)}
               </span>
             ` : ''}
 
             ${guest.address ? `
-              <span class="inline-flex items-center gap-1.5 text-brand-gray truncate max-w-[240px]">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-gray"></i>
+              <span class="inline-flex items-center gap-1.5 text-slate-500 truncate max-w-[240px]">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
                 ${escapeHtml(guest.address)}
               </span>
             ` : ''}
@@ -339,37 +339,37 @@ function renderGuestList() {
         </div>
 
         <!-- Bottom Action Row: Companion Stepper & Check-In Action Button -->
-        <div class="pt-3 border-t border-brand-border/50 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           
           <!-- Companions details & stepper -->
-          <div class="flex items-center justify-between sm:justify-start gap-3 bg-brand-black/50 p-2 rounded-xl border border-brand-border/60">
-            <div class="flex items-center gap-1.5 text-xs text-brand-grayLight">
-              <i data-lucide="users" class="w-4 h-4 text-brand-redLight"></i>
-              <span class="font-medium">Acompañantes:</span>
+          <div class="flex items-center justify-between sm:justify-start gap-3 bg-slate-50 p-2 rounded-xl border border-slate-200">
+            <div class="flex items-center gap-1.5 text-xs text-slate-700 font-semibold">
+              <i data-lucide="users" class="w-4 h-4 text-brand-red"></i>
+              <span>Acompañantes:</span>
             </div>
 
             <div class="flex items-center gap-2">
               <button 
-                class="btn-decrement-comp w-7 h-7 rounded-lg bg-brand-card hover:bg-brand-cardHover border border-brand-border text-white flex items-center justify-center transition active:scale-90"
+                class="btn-decrement-comp w-7 h-7 rounded-lg bg-white hover:bg-slate-200 border border-slate-300 text-slate-800 flex items-center justify-center transition active:scale-90 shadow-2xs"
                 data-id="${guest.id}"
                 title="Disminuir acompañante"
               >
                 <i data-lucide="minus" class="w-3.5 h-3.5"></i>
               </button>
 
-              <span class="font-bold text-sm text-white px-1.5 min-w-[20px] text-center" id="comp-count-${guest.id}">
+              <span class="font-bold text-sm text-slate-900 px-1.5 min-w-[20px] text-center" id="comp-count-${guest.id}">
                 ${compsEntered}
               </span>
 
               <button 
-                class="btn-increment-comp w-7 h-7 rounded-lg bg-brand-card hover:bg-brand-cardHover border border-brand-border text-white flex items-center justify-center transition active:scale-90"
+                class="btn-increment-comp w-7 h-7 rounded-lg bg-white hover:bg-slate-200 border border-slate-300 text-slate-800 flex items-center justify-center transition active:scale-90 shadow-2xs"
                 data-id="${guest.id}"
                 title="Aumentar acompañante"
               >
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
               </button>
 
-              <span class="text-[11px] text-brand-gray">
+              <span class="text-[11px] text-slate-500">
                 (Máx: ${totalCompanions})
               </span>
             </div>
@@ -379,16 +379,16 @@ function renderGuestList() {
           <div class="flex items-center gap-2">
             ${isCheckedIn ? `
               <button 
-                class="btn-toggle-checkin w-full sm:w-auto flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-red-900/40 text-brand-grayLight hover:text-red-300 border border-brand-border hover:border-red-600/50 text-xs font-semibold transition active:scale-95"
+                class="btn-toggle-checkin w-full sm:w-auto flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-700 border border-slate-300 hover:border-rose-300 text-xs font-bold transition active:scale-95 shadow-xs"
                 data-id="${guest.id}"
                 data-status="checkedIn"
               >
-                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                <i data-lucide="rotate-ccw" class="w-4 h-4 text-slate-500"></i>
                 <span>Deshacer Ingreso</span>
               </button>
             ` : `
               <button 
-                class="btn-toggle-checkin w-full sm:w-auto flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs sm:text-sm font-bold shadow-lg shadow-brand-red/30 transition active:scale-95"
+                class="btn-toggle-checkin w-full sm:w-auto flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs sm:text-sm font-bold shadow-md shadow-brand-red/25 transition active:scale-95"
                 data-id="${guest.id}"
                 data-status="pending"
               >
@@ -599,24 +599,24 @@ function showToast(message, type = "info") {
   const toast = document.createElement("div");
 
   let iconName = "info";
-  let borderClass = "border-brand-border";
-  let bgClass = "bg-brand-card";
-  let textClass = "text-white";
+  let borderClass = "border-slate-300";
+  let bgClass = "bg-white";
+  let textClass = "text-slate-700";
 
   if (type === "success") {
     iconName = "check-circle-2";
-    borderClass = "border-emerald-500/40";
-    textClass = "text-emerald-300";
+    borderClass = "border-emerald-300";
+    textClass = "text-emerald-600";
   } else if (type === "error") {
     iconName = "alert-circle";
     borderClass = "border-brand-red/40";
-    textClass = "text-brand-redLight";
+    textClass = "text-brand-red";
   }
 
-  toast.className = `flex items-center gap-2.5 p-3.5 rounded-2xl ${bgClass} ${borderClass} border shadow-2xl animate-fadeIn pointer-events-auto transition-all duration-300`;
+  toast.className = `flex items-center gap-2.5 p-3.5 rounded-2xl ${bgClass} ${borderClass} border-2 shadow-xl animate-fadeIn pointer-events-auto transition-all duration-300`;
   toast.innerHTML = `
     <i data-lucide="${iconName}" class="w-5 h-5 flex-shrink-0 ${textClass}"></i>
-    <span class="text-xs sm:text-sm font-medium text-white flex-1">${escapeHtml(message)}</span>
+    <span class="text-xs sm:text-sm font-bold text-slate-900 flex-1">${escapeHtml(message)}</span>
   `;
 
   container.appendChild(toast);
