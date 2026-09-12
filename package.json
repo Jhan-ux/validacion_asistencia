@@ -1,0 +1,18 @@
+{
+  "name": "msa-control-asistencia",
+  "version": "1.0.0",
+  "description": "Sistema de Control y Verificación de Asistencia - Evento Línea Premium MSA",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["asistencia", "eventos", "msa", "check-in"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "xlsx": "^0.18.5"
+  }
+}
