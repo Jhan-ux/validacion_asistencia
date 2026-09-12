@@ -144,6 +144,44 @@ app.post('/api/guests/add', (req, res) => {
   });
 });
 
+// POST Delete guest
+app.post('/api/guests/delete', (req, res) => {
+  const { id } = req.body;
+  const index = guestsCache.findIndex(g => g.id === id);
+  if (index === -1) {
+    return res.status(404).json({ success: false, message: 'Invitado no encontrado' });
+  }
+
+  const deletedGuest = guestsCache.splice(index, 1)[0];
+  saveGuests();
+
+  res.json({
+    success: true,
+    message: 'Invitado eliminado correctamente',
+    guest: deletedGuest,
+    stats: getStats()
+  });
+});
+
+// DELETE Guest by ID
+app.delete('/api/guests/:id', (req, res) => {
+  const { id } = req.params;
+  const index = guestsCache.findIndex(g => g.id === id);
+  if (index === -1) {
+    return res.status(404).json({ success: false, message: 'Invitado no encontrado' });
+  }
+
+  const deletedGuest = guestsCache.splice(index, 1)[0];
+  saveGuests();
+
+  res.json({
+    success: true,
+    message: 'Invitado eliminado correctamente',
+    guest: deletedGuest,
+    stats: getStats()
+  });
+});
+
 // POST Batch sync (useful for Vercel/localStorage multi-device or offline backup)
 app.post('/api/guests/sync', (req, res) => {
   const { guests } = req.body;

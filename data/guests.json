@@ -1,5 +1,20 @@
 [
   {
+    "id": "MSA-REG-1477",
+    "name": "Invitado Prueba",
+    "phone": "987654321",
+    "phoneDigits": "987654321",
+    "email": "",
+    "address": "",
+    "responsible": "Invitado de prueba",
+    "companions": 2,
+    "checkedIn": false,
+    "checkInTime": null,
+    "companionsEntered": 0,
+    "notes": "Registrado en el evento",
+    "isWalkIn": true
+  },
+  {
     "id": "MSA-001",
     "name": "Juan Gerald La Torre",
     "phone": "976 489 610",

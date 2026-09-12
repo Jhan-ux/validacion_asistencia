@@ -3,7 +3,6 @@
  * Frontend Logic & State Management
  */
 
-const FORM_REGISTRATION_URL = "https://forms.gle/ZMx54sLXi2kvEavt9";
 const LOCAL_STORAGE_KEY = "msa_guests_attendance_data";
 
 // Application State
@@ -19,9 +18,10 @@ let state = {
     attendanceRate: 0
   },
   searchQuery: "",
-  currentFilter: "all", // 'all' | 'pending' | 'checkedIn'
-  qrGenerated: false
+  currentFilter: "all" // 'all' | 'pending' | 'checkedIn'
 };
+
+let guestToDelete = null;
 
 // DOM Elements
 const searchInput = document.getElementById("searchInput");
@@ -47,6 +47,7 @@ const countFilterAll = document.getElementById("countFilterAll");
 const countFilterPending = document.getElementById("countFilterPending");
 const countFilterCheckedIn = document.getElementById("countFilterCheckedIn");
 
+// New Guest Modal elements
 const newGuestModal = document.getElementById("newGuestModal");
 const btnOpenNewGuestModal = document.getElementById("btnOpenNewGuestModal");
 const btnOpenNewGuestFromBanner = document.getElementById("btnOpenNewGuestFromBanner");
@@ -54,6 +55,16 @@ const btnCloseNewGuestModal = document.getElementById("btnCloseNewGuestModal");
 const btnCancelNewGuest = document.getElementById("btnCancelNewGuest");
 const btnQuickAddFromSearch = document.getElementById("btnQuickAddFromSearch");
 const newGuestForm = document.getElementById("newGuestForm");
+const formGuestResponsibleSelect = document.getElementById("formGuestResponsibleSelect");
+const responsibleOtherContainer = document.getElementById("responsibleOtherContainer");
+const formGuestResponsibleOther = document.getElementById("formGuestResponsibleOther");
+const formGuestNotes = document.getElementById("formGuestNotes");
+
+// Delete Modal elements
+const deleteConfirmModal = document.getElementById("deleteConfirmModal");
+const deleteGuestName = document.getElementById("deleteGuestName");
+const btnCancelDelete = document.getElementById("btnCancelDelete");
+const btnConfirmDelete = document.getElementById("btnConfirmDelete");
 
 const btnExport = document.getElementById("btnExport");
 const btnReload = document.getElementById("btnReload");
@@ -108,18 +119,18 @@ function calculateStats() {
  * Update UI for KPI counters
  */
 function updateKpiUI() {
-  kpiTotalGuests.textContent = state.stats.totalGuests;
-  kpiCheckedIn.textContent = state.stats.checkedInCount;
-  kpiPending.textContent = state.stats.pendingCount;
-  kpiTotalCompanionsExpected.textContent = state.stats.totalCompanionsExpected;
-  kpiCompanionsEntered.textContent = state.stats.companionsEntered;
-  kpiTotalPeopleEntered.textContent = state.stats.totalPeopleEntered;
-  kpiRate.textContent = `${state.stats.attendanceRate}%`;
-  kpiProgressBar.style.width = `${state.stats.attendanceRate}%`;
+  if (kpiTotalGuests) kpiTotalGuests.textContent = state.stats.totalGuests;
+  if (kpiCheckedIn) kpiCheckedIn.textContent = state.stats.checkedInCount;
+  if (kpiPending) kpiPending.textContent = state.stats.pendingCount;
+  if (kpiTotalCompanionsExpected) kpiTotalCompanionsExpected.textContent = state.stats.totalCompanionsExpected;
+  if (kpiCompanionsEntered) kpiCompanionsEntered.textContent = state.stats.companionsEntered;
+  if (kpiTotalPeopleEntered) kpiTotalPeopleEntered.textContent = state.stats.totalPeopleEntered;
+  if (kpiRate) kpiRate.textContent = `${state.stats.attendanceRate}%`;
+  if (kpiProgressBar) kpiProgressBar.style.width = `${state.stats.attendanceRate}%`;
 
-  countFilterAll.textContent = state.stats.totalGuests;
-  countFilterPending.textContent = state.stats.pendingCount;
-  countFilterCheckedIn.textContent = state.stats.checkedInCount;
+  if (countFilterAll) countFilterAll.textContent = state.stats.totalGuests;
+  if (countFilterPending) countFilterPending.textContent = state.stats.pendingCount;
+  if (countFilterCheckedIn) countFilterCheckedIn.textContent = state.stats.checkedInCount;
 }
 
 /**
@@ -137,9 +148,9 @@ function saveToLocalStorage() {
  * Load initial data from API or localStorage fallback
  */
 async function loadData() {
-  loadingState.classList.remove("hidden");
-  guestListContainer.innerHTML = "";
-  noResultsState.classList.add("hidden");
+  if (loadingState) loadingState.classList.remove("hidden");
+  if (guestListContainer) guestListContainer.innerHTML = "";
+  if (noResultsState) noResultsState.classList.add("hidden");
 
   try {
     const res = await fetch("/api/guests");
@@ -176,12 +187,12 @@ async function loadData() {
     if (localData && localData.length > 0) {
       state.guests = localData;
       setOnlineStatus(false);
-      showToast("Modo sin conexión: cargando datos locales", "info");
+      showToast("Modo local: datos cargados correctamente", "info");
     } else {
       showToast("Error al cargar la lista de invitados", "error");
     }
   } finally {
-    loadingState.classList.add("hidden");
+    if (loadingState) loadingState.classList.add("hidden");
     calculateStats();
     renderGuestList();
     if (window.lucide) lucide.createIcons();
@@ -198,6 +209,7 @@ function getLocalStorageData() {
 }
 
 function setOnlineStatus(isOnline) {
+  if (!syncBadge) return;
   if (isOnline) {
     syncBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> En Línea`;
     syncBadge.className = "inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium";
@@ -240,23 +252,25 @@ function getFilteredGuests() {
  */
 function renderGuestList() {
   const filtered = getFilteredGuests();
-  searchResultCount.textContent = `${filtered.length}`;
+  if (searchResultCount) searchResultCount.textContent = `${filtered.length}`;
 
-  if (state.searchQuery.trim().length > 0) {
-    btnClearSearch.classList.remove("hidden");
-  } else {
-    btnClearSearch.classList.add("hidden");
+  if (btnClearSearch) {
+    if (state.searchQuery.trim().length > 0) {
+      btnClearSearch.classList.remove("hidden");
+    } else {
+      btnClearSearch.classList.add("hidden");
+    }
   }
 
   if (filtered.length === 0) {
     guestListContainer.innerHTML = "";
-    noResultsQuery.textContent = state.searchQuery || "el filtro seleccionado";
-    noResultsState.classList.remove("hidden");
+    if (noResultsQuery) noResultsQuery.textContent = state.searchQuery || "el filtro seleccionado";
+    if (noResultsState) noResultsState.classList.remove("hidden");
     if (window.lucide) lucide.createIcons();
     return;
   }
 
-  noResultsState.classList.add("hidden");
+  if (noResultsState) noResultsState.classList.add("hidden");
 
   const html = filtered.map(guest => {
     const isCheckedIn = guest.checkedIn;
@@ -267,7 +281,7 @@ function renderGuestList() {
     return `
       <div class="guest-card bg-white border-2 ${isCheckedIn ? 'border-emerald-300 bg-emerald-50/40' : 'border-slate-200/90'} rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden" data-id="${guest.id}">
         
-        <!-- Top row: ID, Status Badge & Responsible -->
+        <!-- Top row: ID, Status Badge, Responsible & Delete Button -->
         <div class="flex items-center justify-between gap-2 mb-2.5">
           <div class="flex items-center gap-2">
             <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${guest.isWalkIn ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-slate-100 text-slate-700 border border-slate-200'} font-mono">
@@ -281,8 +295,8 @@ function renderGuestList() {
             ` : ''}
           </div>
 
-          <!-- Status indicator badge -->
-          <div>
+          <!-- Status indicator badge & Delete Action -->
+          <div class="flex items-center gap-1.5">
             ${isCheckedIn ? `
               <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
                 <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
@@ -294,6 +308,15 @@ function renderGuestList() {
                 Pendiente
               </span>
             `}
+
+            <button 
+              class="btn-delete-guest p-1.5 rounded-lg text-slate-400 hover:text-brand-red hover:bg-rose-50 border border-transparent hover:border-rose-200 transition active:scale-90"
+              data-id="${guest.id}"
+              data-name="${escapeHtml(guest.name)}"
+              title="Eliminar invitado"
+            >
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
           </div>
         </div>
 
@@ -329,13 +352,20 @@ function renderGuestList() {
                 ${escapeHtml(guest.address)}
               </span>
             ` : ''}
+
+            ${guest.notes ? `
+              <span class="inline-flex items-center gap-1.5 text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                <i data-lucide="info" class="w-3 h-3 text-amber-600"></i>
+                ${escapeHtml(guest.notes)}
+              </span>
+            ` : ''}
           </div>
         </div>
 
         <!-- Bottom Action Row: Companion Stepper & Check-In Action Button -->
         <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           
-          <!-- Companions details & stepper -->
+          <!-- Companions details & stepper (without max label) -->
           <div class="flex items-center justify-between sm:justify-start gap-3 bg-slate-50 p-2 rounded-xl border border-slate-200">
             <div class="flex items-center gap-1.5 text-xs text-slate-700 font-semibold">
               <i data-lucide="users" class="w-4 h-4 text-brand-red"></i>
@@ -507,6 +537,49 @@ async function adjustCompanion(guestId, delta) {
 }
 
 /**
+ * Open/Close Delete Confirmation Modal
+ */
+function openDeleteModal(id, name) {
+  guestToDelete = id;
+  if (deleteGuestName) deleteGuestName.textContent = name;
+  if (deleteConfirmModal) deleteConfirmModal.classList.remove("hidden");
+}
+
+function closeDeleteModal() {
+  guestToDelete = null;
+  if (deleteConfirmModal) deleteConfirmModal.classList.add("hidden");
+}
+
+/**
+ * Confirm and execute guest deletion
+ */
+async function confirmDeleteGuest() {
+  if (!guestToDelete) return;
+  const id = guestToDelete;
+  const index = state.guests.findIndex(g => g.id === id);
+
+  if (index !== -1) {
+    const deleted = state.guests.splice(index, 1)[0];
+    saveToLocalStorage();
+    calculateStats();
+    renderGuestList();
+    showToast(`Invitado eliminado: ${deleted.name}`, "info");
+
+    try {
+      await fetch("/api/guests/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+    } catch (err) {
+      console.warn("Guest deleted locally", err);
+    }
+  }
+
+  closeDeleteModal();
+}
+
+/**
  * Handle new guest form submission
  */
 async function handleNewGuestSubmit(e) {
@@ -514,7 +587,14 @@ async function handleNewGuestSubmit(e) {
   const name = document.getElementById("formGuestName").value.trim();
   const phone = document.getElementById("formGuestPhone").value.trim();
   const companions = parseInt(document.getElementById("formGuestCompanions").value, 10) || 0;
-  const responsible = document.getElementById("formGuestResponsible").value.trim();
+  
+  // Handle Responsible selection (dropdown + other)
+  let responsible = formGuestResponsibleSelect ? formGuestResponsibleSelect.value : "Registro en Puerta";
+  if (responsible === "OTRO") {
+    responsible = (formGuestResponsibleOther ? formGuestResponsibleOther.value.trim() : "") || "Otro";
+  }
+
+  const notes = formGuestNotes ? formGuestNotes.value.trim() : "";
   const checkInNow = document.getElementById("formCheckInNow").checked;
 
   if (!name) {
@@ -530,12 +610,12 @@ async function handleNewGuestSubmit(e) {
     phoneDigits,
     email: "",
     address: "",
-    responsible: responsible || "Registro en Puerta",
+    responsible,
     companions,
     checkedIn: checkInNow,
     checkInTime: checkInNow ? new Date().toISOString() : null,
     companionsEntered: checkInNow ? companions : 0,
-    notes: "Registrado en evento",
+    notes: notes || "Registrado en evento",
     isWalkIn: true
   };
 
@@ -546,6 +626,8 @@ async function handleNewGuestSubmit(e) {
 
   closeNewGuestModal();
   newGuestForm.reset();
+  if (formGuestResponsibleSelect) formGuestResponsibleSelect.value = "Judith Cusma";
+  if (responsibleOtherContainer) responsibleOtherContainer.classList.add("hidden");
   document.getElementById("formCheckInNow").checked = true;
 
   if (checkInNow) {
@@ -586,6 +668,7 @@ function triggerConfetti() {
  */
 function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
+  if (!container) return;
   const toast = document.createElement("div");
 
   let iconName = "info";
@@ -619,10 +702,8 @@ function showToast(message, type = "info") {
   }, 3500);
 }
 
-/**
- * Generate QR code for Google Form Registration
- */
 function openNewGuestModal(prefillName = "") {
+  if (!newGuestModal) return;
   newGuestModal.classList.remove("hidden");
   if (prefillName) {
     document.getElementById("formGuestName").value = prefillName;
@@ -631,7 +712,7 @@ function openNewGuestModal(prefillName = "") {
 }
 
 function closeNewGuestModal() {
-  newGuestModal.classList.add("hidden");
+  if (newGuestModal) newGuestModal.classList.add("hidden");
 }
 
 /**
@@ -639,56 +720,82 @@ function closeNewGuestModal() {
  */
 function setupEventListeners() {
   // Search input with debounce
-  searchInput.addEventListener("input", e => {
-    state.searchQuery = e.target.value;
-    renderGuestList();
-  });
+  if (searchInput) {
+    searchInput.addEventListener("input", e => {
+      state.searchQuery = e.target.value;
+      renderGuestList();
+    });
+  }
 
-  btnClearSearch.addEventListener("click", () => {
-    searchInput.value = "";
-    state.searchQuery = "";
-    renderGuestList();
-    searchInput.focus();
-  });
+  if (btnClearSearch) {
+    btnClearSearch.addEventListener("click", () => {
+      searchInput.value = "";
+      state.searchQuery = "";
+      renderGuestList();
+      searchInput.focus();
+    });
+  }
 
   // Filter tabs
   filterTabs.forEach(tab => {
     tab.addEventListener("click", () => {
       filterTabs.forEach(t => {
         t.classList.remove("active-filter", "text-white");
-        t.classList.add("text-brand-gray");
+        t.classList.add("text-slate-600");
       });
       tab.classList.add("active-filter", "text-white");
-      tab.classList.remove("text-brand-gray");
+      tab.classList.remove("text-slate-600");
 
       state.currentFilter = tab.dataset.filter;
       renderGuestList();
     });
   });
 
-  // Guest list clicks (Delegation for Checkin and Companions)
-  guestListContainer.addEventListener("click", e => {
-    const toggleBtn = e.target.closest(".btn-toggle-checkin");
-    if (toggleBtn) {
-      const guestId = toggleBtn.dataset.id;
-      toggleCheckIn(guestId);
-      return;
-    }
+  // Toggle "Otro" field when responsible select changes
+  if (formGuestResponsibleSelect) {
+    formGuestResponsibleSelect.addEventListener("change", e => {
+      if (e.target.value === "OTRO") {
+        responsibleOtherContainer.classList.remove("hidden");
+        formGuestResponsibleOther.focus();
+      } else {
+        responsibleOtherContainer.classList.add("hidden");
+      }
+    });
+  }
 
-    const plusBtn = e.target.closest(".btn-increment-comp");
-    if (plusBtn) {
-      const guestId = plusBtn.dataset.id;
-      adjustCompanion(guestId, 1);
-      return;
-    }
+  // Guest list clicks (Delegation for Checkin, Companions and Delete)
+  if (guestListContainer) {
+    guestListContainer.addEventListener("click", e => {
+      const deleteBtn = e.target.closest(".btn-delete-guest");
+      if (deleteBtn) {
+        const guestId = deleteBtn.dataset.id;
+        const guestName = deleteBtn.dataset.name;
+        openDeleteModal(guestId, guestName);
+        return;
+      }
 
-    const minusBtn = e.target.closest(".btn-decrement-comp");
-    if (minusBtn) {
-      const guestId = minusBtn.dataset.id;
-      adjustCompanion(guestId, -1);
-      return;
-    }
-  });
+      const toggleBtn = e.target.closest(".btn-toggle-checkin");
+      if (toggleBtn) {
+        const guestId = toggleBtn.dataset.id;
+        toggleCheckIn(guestId);
+        return;
+      }
+
+      const plusBtn = e.target.closest(".btn-increment-comp");
+      if (plusBtn) {
+        const guestId = plusBtn.dataset.id;
+        adjustCompanion(guestId, 1);
+        return;
+      }
+
+      const minusBtn = e.target.closest(".btn-decrement-comp");
+      if (minusBtn) {
+        const guestId = minusBtn.dataset.id;
+        adjustCompanion(guestId, -1);
+        return;
+      }
+    });
+  }
 
   // Modals interactions
   if (btnOpenNewGuestModal) {
@@ -709,23 +816,44 @@ function setupEventListeners() {
     });
   }
 
-  btnQuickAddFromSearch.addEventListener("click", () => {
-    openNewGuestModal(state.searchQuery);
-  });
+  // Delete modal actions
+  if (btnCancelDelete) {
+    btnCancelDelete.addEventListener("click", closeDeleteModal);
+  }
+  if (btnConfirmDelete) {
+    btnConfirmDelete.addEventListener("click", confirmDeleteGuest);
+  }
+  if (deleteConfirmModal) {
+    deleteConfirmModal.addEventListener("click", e => {
+      if (e.target === deleteConfirmModal) closeDeleteModal();
+    });
+  }
 
-  newGuestForm.addEventListener("submit", handleNewGuestSubmit);
+  if (btnQuickAddFromSearch) {
+    btnQuickAddFromSearch.addEventListener("click", () => {
+      openNewGuestModal(state.searchQuery);
+    });
+  }
+
+  if (newGuestForm) {
+    newGuestForm.addEventListener("submit", handleNewGuestSubmit);
+  }
 
   // Reload button
-  btnReload.addEventListener("click", () => {
-    showToast("Actualizando datos...", "info");
-    loadData();
-  });
+  if (btnReload) {
+    btnReload.addEventListener("click", () => {
+      showToast("Actualizando datos...", "info");
+      loadData();
+    });
+  }
 
   // Export Excel
-  btnExport.addEventListener("click", () => {
-    showToast("Generando reporte Excel...", "info");
-    window.location.href = "/api/guests/export";
-  });
+  if (btnExport) {
+    btnExport.addEventListener("click", () => {
+      showToast("Generando reporte Excel...", "info");
+      window.location.href = "/api/guests/export";
+    });
+  }
 }
 
 // Initialize Application on DOM Ready

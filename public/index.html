@@ -349,7 +349,41 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-            Empresa / Observaciones
+            Persona Responsable de la Invitación
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="tag" class="w-4 h-4 text-brand-red"></i>
+            </div>
+            <select
+              id="formGuestResponsibleSelect"
+              class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-brand-red focus:bg-white focus:ring-2 focus:ring-brand-red/20 font-medium"
+            >
+              <option value="Judith Cusma">Judith Cusma</option>
+              <option value="Gaby Peregrino">Gaby Peregrino</option>
+              <option value="Nely Llanos">Nely Llanos</option>
+              <option value="Fany Vigo">Fany Vigo</option>
+              <option value="Adriana Araujo">Adriana Araujo</option>
+              <option value="Melissa León">Melissa León</option>
+              <option value="Paolo Malaver">Paolo Malaver</option>
+              <option value="OTRO">Otro (especificar...)</option>
+            </select>
+          </div>
+          
+          <!-- Custom responsible input (shown when OTRO is selected) -->
+          <div id="responsibleOtherContainer" class="hidden mt-2">
+            <input
+              type="text"
+              id="formGuestResponsibleOther"
+              placeholder="Escribe el nombre del responsable..."
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-brand-red focus:bg-white focus:ring-2 focus:ring-brand-red/20"
+            >
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            Empresa / Observaciones (Opcional)
           </label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -357,8 +391,8 @@
             </div>
             <input
               type="text"
-              id="formGuestResponsible"
-              placeholder="Ej: Cliente VIP / Invitación Directa"
+              id="formGuestNotes"
+              placeholder="Ej: Cliente VIP, Mesa 4, etc."
               class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-brand-red focus:bg-white focus:ring-2 focus:ring-brand-red/20"
             >
           </div>
@@ -381,6 +415,33 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal: Delete Confirmation -->
+  <div id="deleteConfirmModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 max-w-sm w-full shadow-2xl relative space-y-4 text-center">
+      
+      <div class="w-12 h-12 mx-auto rounded-2xl bg-rose-100 border border-rose-300 flex items-center justify-center text-brand-red">
+        <i data-lucide="trash-2" class="w-6 h-6"></i>
+      </div>
+
+      <div class="space-y-1">
+        <h3 class="text-lg font-bold text-slate-900 font-display">¿Eliminar Invitado?</h3>
+        <p class="text-xs text-slate-600">
+          ¿Estás seguro de eliminar a <span id="deleteGuestName" class="font-bold text-slate-900"></span> de la lista del evento? Esta acción no se puede deshacer.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button type="button" id="btnCancelDelete" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs font-bold transition">
+          Cancelar
+        </button>
+        <button type="button" id="btnConfirmDelete" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold transition shadow-md shadow-brand-red/25">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+          <span>Eliminar</span>
+        </button>
+      </div>
     </div>
   </div>
 
